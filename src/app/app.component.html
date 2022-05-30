@@ -1,1 +1,20 @@
-<h1>Hello Dom</h1>
+<div class="mat-container-fluid h-100 d-flex flex-column p-0" *ngIf="userDetails?.userName">
+    <mat-toolbar class="top-header">
+        <mat-toolbar-row>
+            <button *ngFor="let menu of headerMenu" mat-button [routerLink]="menu.routerLink" routerLinkActive="active">{{menu.title}}</button>
+            <span class="position-absolute r-50 action-lbl">{{userDetails?.userName}}</span>
+            <mat-icon color = "primary" class="cursor-pointer menu-header-icons position-absolute r-15" (click)="logout()">logout</mat-icon>
+
+            <!-- <img class="cursor-pointer menu-header-icons position-absolute r-15" src="/assets/images/logout.svg" (click)="logout()" title="Logout" width="20" height="40"/> -->
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <!-- <div class="workspace-parent-container h-100 row m-0">
+        <div class="col-12">
+            <div *ngIf="isLoading" class="spinner-container">
+                <mat-spinner [diameter]="100"></mat-spinner>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+    </div> -->
+</div>
+<router-outlet></router-outlet>
