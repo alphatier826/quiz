@@ -1,6 +1,6 @@
 import { HttpHeaders,HttpClient, HttpParams, HttpResponse, HttpParameterCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -8,16 +8,31 @@ import { environment } from 'src/environments/environment';
 })
 export class ApiServiceService {
 
-  
+  public currentUserDetails: any = {"fullName": sessionStorage.getItem("fullName"), "email": sessionStorage.getItem("email")};
+  public isUserLoggedIn: boolean = false;
   public serviceEndpoint: string = (environment.apiEngineURL || location.origin) + "/serviceEngine";
 
-  constructor(private http: HttpClient) { }
-
-  public userInfo = new BehaviorSubject({});
-
-  updateUserInfo(userDetails: Object){
-    this.userInfo.next(userDetails)
+  constructor(private http: HttpClient) {
+    if(sessionStorage.hasOwnProperty('fullName'))  this.isUserLoggedIn = true;
   }
+
+  saveUserInfo(userDetails: any):void{
+    sessionStorage.setItem('userDetails',JSON.stringify(userDetails));
+    sessionStorage.setItem('fullName',userDetails.userName);
+    sessionStorage.setItem('email',userDetails.email);
+    this.currentUserDetails = {"fullName": sessionStorage.getItem("fullName"), "email": sessionStorage.getItem("email")};
+    this.isUserLoggedIn = true;
+  }
+
+  getUserInfo(): Observable<any>{
+    return of(JSON.parse(sessionStorage.getItem('userDetails') || '{}'));
+  }
+
+  clearSessionStorage(){
+    this.isUserLoggedIn = false;
+    sessionStorage.clear();
+  }
+
 
   public getDefaultHeaders(){
     let defaultHeader = {

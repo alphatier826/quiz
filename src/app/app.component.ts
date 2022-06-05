@@ -21,10 +21,10 @@ export class AppComponent implements OnInit{
     {routerLink:'/faculty/questions', title:'Question Setup'},
     {routerLink:'/faculty/users', title:'Users'}
   ]
-  constructor(private apiService: ApiServiceService, private router: Router){}
+  constructor(public apiService: ApiServiceService, private router: Router){}
 
   ngOnInit(): void {
-    this.apiService.userInfo.subscribe((userInfo) =>{
+    this.apiService.getUserInfo().subscribe((userInfo) =>{
       this.userDetails = userInfo;
       if(this.userDetails.type === "FACULTY"){
         this.headerMenu = this.FHeaderMenu;
@@ -35,7 +35,8 @@ export class AppComponent implements OnInit{
   }
 
   logout(): void{
-    this.apiService.updateUserInfo({});
+    this.apiService.clearSessionStorage();
+    this.userDetails = {};
     this.router.navigateByUrl("");
   }
 

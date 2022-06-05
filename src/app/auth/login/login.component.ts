@@ -25,10 +25,11 @@ export class LoginComponent implements OnInit {
     if(loginForm.valid){
       this.apiService.invokeAPI(`/users/login`, "POST", loginForm.value).subscribe((res: any) =>{
         var userDetails = res.body.userDetails;
-        this.apiService.updateUserInfo({userName: userDetails.firstName+" "+userDetails.lastName,
+        this.apiService.saveUserInfo({userName: userDetails.firstName+" "+userDetails.lastName,
                                         email: userDetails.email,
-                                        type: userDetails.type});
-        userDetails.type == 'FACULTY' ? this.router.navigateByUrl("faculty/dashboard") : this.router.navigateByUrl("student/dashboard") ;
+                                        type: userDetails.type,
+                                        isActive: userDetails.isActive});
+          userDetails.type == 'FACULTY' ? this.router.navigateByUrl("faculty/dashboard") : this.router.navigateByUrl("student/dashboard") ;
       },(err: any)=>{
         this._snackBar.open('Login Failed');
       })

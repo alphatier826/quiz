@@ -2,13 +2,17 @@
 
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
-body{
-    background-color: #8EC5FC;
-background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
-
-}
 html, body { height: auto; overflow: hidden;}
-body { margin: 0; font-family: 'Roboto', sans-serif !important; overflow: hidden; }
+body { 
+    margin: 0; 
+    font-family: 'Roboto', sans-serif !important; 
+    overflow: hidden;
+    background: rgb(235, 233, 233);
+}
+
+.highcharts-credits{
+    display: none !important;
+}
 
 
 .cursor-pointer{
